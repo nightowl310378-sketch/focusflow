@@ -5,6 +5,7 @@ import type { JSX } from 'react'
 
 import { StoreProvider } from '@/storage/use-store'
 import { ToastProvider } from '@/components/ui/toast'
+import { ThemeProvider } from '@/theme/theme'
 import { createInitialData } from '@/constants/defaults'
 import { saveData } from '@/storage/storage'
 import { AppShell } from '@/components/layout/app-shell'
@@ -23,11 +24,13 @@ import Settings from '@/pages/settings'
 
 function renderPage(ui: JSX.Element, route = '/') {
   return render(
-    <StoreProvider>
-      <ToastProvider>
-        <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
-      </ToastProvider>
-    </StoreProvider>,
+    <ThemeProvider>
+      <StoreProvider>
+        <ToastProvider>
+          <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
+        </ToastProvider>
+      </StoreProvider>
+    </ThemeProvider>,
   )
 }
 

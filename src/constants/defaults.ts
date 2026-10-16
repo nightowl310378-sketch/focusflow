@@ -44,21 +44,21 @@ export function createInitialData(opts?: { demo?: boolean; name?: string }): Foc
   const subjMath = {
     id: uid('subj'),
     name: 'Mathematics',
-    color: 'bg-indigo-100 text-indigo-700 ring-indigo-500/40',
+    color: 'subj-indigo',
     icon: 'calc',
     createdAt: toISODateTime(now),
   }
   const subjPhy = {
     id: uid('subj'),
     name: 'Physics',
-    color: 'bg-violet-100 text-violet-700 ring-violet-500/40',
+    color: 'subj-violet',
     icon: 'flask',
     createdAt: toISODateTime(now),
   }
   const subjEng = {
     id: uid('subj'),
     name: 'English',
-    color: 'bg-cyan-100 text-cyan-700 ring-cyan-500/40',
+    color: 'subj-cyan',
     icon: 'book',
     createdAt: toISODateTime(now),
   }

@@ -15,8 +15,8 @@ import { formatMinutes, uid } from '@/utils/format'
 
 const MODES: Record<TimerMode, { label: string; tone: string }> = {
   focus: { label: 'Focus', tone: 'text-primary' },
-  short_break: { label: 'Short break', tone: 'text-emerald-600' },
-  long_break: { label: 'Long break', tone: 'text-cyan-600' },
+  short_break: { label: 'Short break', tone: 'text-success-ink' },
+  long_break: { label: 'Long break', tone: 'text-cyan-ink' },
 }
 
 export default function TimerPage(): JSX.Element {
@@ -128,7 +128,7 @@ export default function TimerPage(): JSX.Element {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="flex flex-col items-center gap-6 p-6 lg:col-span-2">
-          <div className="flex gap-1 rounded-2xl bg-slate-100 p-1">
+          <div className="flex gap-1 rounded-2xl bg-soft-2 p-1">
             {(Object.keys(MODES) as TimerMode[]).map((m) => (
               <button
                 key={m}
@@ -146,13 +146,13 @@ export default function TimerPage(): JSX.Element {
 
           <div className="relative">
             <svg width="280" height="280" viewBox="0 0 280 280" className="-rotate-90">
-              <circle cx="140" cy="140" r="120" fill="none" stroke="#e2e8f0" strokeWidth="14" />
+              <circle cx="140" cy="140" r="120" fill="none" stroke="var(--soft-3)" strokeWidth="14" />
               <circle
                 cx="140"
                 cy="140"
                 r="120"
                 fill="none"
-                stroke={mode === 'focus' ? '#6366f1' : mode === 'short_break' ? '#10b981' : '#06b6d4'}
+                stroke={mode === 'focus' ? 'var(--primary)' : mode === 'short_break' ? 'var(--success)' : 'var(--cyan)'}
                 strokeWidth="14"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
@@ -232,7 +232,7 @@ export default function TimerPage(): JSX.Element {
                     const t = data.topics.find((x) => x.id === f.topicId)
                     return (
                       <li key={f.id} className="flex items-center gap-3 rounded-xl border border-line px-3 py-2 text-sm">
-                        <Check className="h-4 w-4 shrink-0 text-emerald-500" />
+                        <Check className="h-4 w-4 shrink-0 text-success" />
                         <span className="flex-1 truncate text-ink">{t?.name ?? 'Focus block'}</span>
                         <Badge tone="neutral">{formatMinutes(f.minutes)}</Badge>
                       </li>

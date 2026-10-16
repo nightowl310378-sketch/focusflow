@@ -367,7 +367,7 @@ function SubjectForm({
                   onClick={() => setIcon(nameKey)}
                   className={cn(
                     'flex h-9 w-9 items-center justify-center rounded-xl border transition-colors',
-                    icon === nameKey ? 'border-primary bg-primary-soft text-primary' : 'border-line text-ink-muted hover:bg-slate-50',
+                    icon === nameKey ? 'border-primary bg-primary-soft text-primary' : 'border-line text-ink-muted hover:bg-soft',
                   )}
                   aria-label={nameKey}
                 >
