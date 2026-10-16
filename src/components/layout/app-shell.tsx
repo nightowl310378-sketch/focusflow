@@ -15,8 +15,10 @@ import {
 import { useEffect, useState, type JSX } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
+import { GoogleSignInButton } from '@/components/google-sign-in-button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/cn'
+import { useAuth } from '@/services/auth'
 import { useStore } from '@/storage/use-store'
 
 const NAV = [
@@ -72,13 +74,24 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }): JSX.Element {
 }
 
 export function AppShell(): JSX.Element {
-  const { data } = useStore()
+  const { data, setData } = useStore()
+  const { configured, user, signOut } = useAuth()
   const { pathname } = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  // When a user signs in, adopt their Google name if the profile is still the default.
+  useEffect(() => {
+    if (!user?.name) return
+    setData((prev) =>
+      prev.profile.name && prev.profile.name !== 'Student'
+        ? prev
+        : { ...prev, profile: { ...prev.profile, name: user.name! } },
+    )
+  }, [user?.name, setData])
 
   return (
     <div className="min-h-screen bg-app">
@@ -100,9 +113,45 @@ export function AppShell(): JSX.Element {
           </div>
           <NavItems />
           <div className="mt-auto rounded-2xl bg-soft p-4">
-            <p className="text-xs font-medium text-ink-muted">Signed in as</p>
-            <p className="mt-0.5 truncate text-sm font-semibold text-ink">{data.profile.name}</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            {user ? (
+              <>
+                <p className="text-xs font-medium text-ink-muted">Signed in as</p>
+                <div className="mt-1.5 flex items-center gap-2">
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt=""
+                      referrerPolicy="no-referrer"
+                      className="h-7 w-7 shrink-0 rounded-full"
+                    />
+                  ) : null}
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-ink">
+                      {user.name ?? user.email ?? 'Student'}
+                    </p>
+                    {user.email ? (
+                      <p className="truncate text-[11px] text-ink-muted">{user.email}</p>
+                    ) : null}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void signOut()}
+                  className="mt-3 text-xs font-medium text-primary hover:underline"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-xs font-medium text-ink-muted">Signed in as</p>
+                <p className="mt-0.5 truncate text-sm font-semibold text-ink">{data.profile.name}</p>
+                {configured ? (
+                  <GoogleSignInButton size="sm" className="mt-3 w-full" label="Sign in" />
+                ) : null}
+              </>
+            )}
+            <div className="mt-3 flex flex-wrap gap-1.5">
               <Badge tone={data.demo ? 'cyan' : 'primary'}>{data.demo ? 'Demo' : 'My data'}</Badge>
               <Badge tone="neutral">{data.subjects.length} subjects</Badge>
             </div>

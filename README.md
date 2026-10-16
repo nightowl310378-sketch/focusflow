@@ -154,6 +154,46 @@ Requires Node 20+.
 
 ---
 
+## Google sign-in (optional)
+
+FocusFlow ships with **optional** Google authentication via Firebase. The app is designed to
+work with or without it:
+
+- **Not configured** → the sign-in button is hidden automatically and everything runs
+  local-first. This is the default and requires no setup.
+- **Configured** → users can sign in with Google; the signed-in name, email and avatar appear
+  in the sidebar, and the profile name is filled from their Google account.
+
+Auth is **client-side and optional**: it does not gate the planner, so a judge can still use the
+whole app without an account.
+
+### Enable it
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com).
+2. **Build → Authentication → Get started → Sign-in method → Google → Enable.**
+3. **Project settings → Your apps → Web app** → copy the config values.
+4. Create a `.env.local` (see `.env.example`) and fill in:
+
+   ```bash
+   VITE_FIREBASE_API_KEY=...
+   VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your-project
+   VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=...
+   VITE_FIREBASE_APP_ID=...
+   ```
+
+5. **Authentication → Settings → Authorized domains** → add your site domain
+   (e.g. `focusflow-phi-opal.vercel.app` and `localhost`).
+6. On **Vercel**, add the same variables under *Project → Settings → Environment Variables*
+   (all environments), then redeploy.
+
+> These config values are **public client identifiers**, not secrets — Firebase web config is
+> meant to be shipped to the browser. Access is controlled by Firebase Security Rules and the
+> authorised-domains allowlist, never by hiding the config.
+
+---
+
 ## Limitations
 
 - Single-user, browser-local persistence (no accounts, no multi-device sync).

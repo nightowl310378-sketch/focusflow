@@ -13,6 +13,7 @@ import {
 import type { JSX, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { GoogleSignInButton } from '@/components/google-sign-in-button'
 import { createInitialData } from '@/constants/defaults'
 import { loadDemo } from '@/storage/storage'
 import { useStore } from '@/storage/use-store'
@@ -62,6 +63,7 @@ export default function Landing(): JSX.Element {
             <span className="text-sm font-bold tracking-tight text-ink">FocusFlow</span>
           </div>
           <div className="flex items-center gap-2">
+            <GoogleSignInButton variant="ghost" size="sm" label="Sign in" onSignedIn={() => navigate('/app')} />
             <Button variant="ghost" size="sm" onClick={exploreDemo}>
               Explore Demo
             </Button>
