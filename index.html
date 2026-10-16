@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FocusFlow — an adaptive smart study planner. Study smarter. Stress less. Achieve more."
+    />
+    <title>FocusFlow — Adaptive Smart Study Planner</title>
+    <script>
+      // Apply the saved appearance before first paint to avoid a flash of the
+      // wrong theme. Falls back to the system preference, then light.
+      ;(function () {
+        try {
+          var t = localStorage.getItem('focusflow:theme')
+          if (t !== 'light' && t !== 'dark' && t !== 'comfort') {
+            t =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          }
+          document.documentElement.setAttribute('data-theme', t)
+          document.documentElement.style.backgroundColor =
+            t === 'dark' ? '#111827' : t === 'comfort' ? '#f4ebd8' : '#f1f5f9'
+          var s = localStorage.getItem('focusflow:text-size')
+          if (s === 'large' || s === 'xlarge' || s === 'normal') {
+            document.documentElement.setAttribute('data-text-size', s)
+          }
+        } catch (e) {}
+      })()
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

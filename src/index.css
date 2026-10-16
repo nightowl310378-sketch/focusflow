@@ -1,0 +1,414 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * FocusFlow appearance system
+ *
+ * Three modes (light / dark / comfort) are driven entirely by CSS
+ * variables set on <html data-theme="…">. Every colour token below is a
+ * semantic variable, so components never hardcode theme colours.
+ * ------------------------------------------------------------------ */
+
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --app: #f1f5f9;
+  --surface: #ffffff;
+  --elevated: #ffffff;
+  --soft: #f8fafc;
+  --soft-2: #f1f5f9;
+  --soft-3: #e2e8f0;
+
+  --ink: #0f172a;
+  --ink-2: #475569;
+  --ink-muted: #64748b;
+  --line: #e2e8f0;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef2ff;
+  --primary-strong: #4338ca;
+  --secondary: #8b5cf6;
+  --on-primary: #ffffff;
+
+  --invert: #0f172a;
+  --invert-ink: #f8fafc;
+  --overlay: rgb(15 23 42 / 0.5);
+  --scroll-thumb: #cbd5e1;
+
+  --success: #10b981;
+  --success-soft: #ecfdf5;
+  --success-ink: #047857;
+  --warning: #f97316;
+  --warning-soft: #fff7ed;
+  --warning-ink: #c2410c;
+  --danger: #ef4444;
+  --danger-soft: #fef2f2;
+  --danger-ink: #b91c1c;
+  --cyan: #06b6d4;
+  --cyan-soft: #ecfeff;
+  --cyan-ink: #0e7490;
+  --violet: #8b5cf6;
+  --violet-soft: #f5f3ff;
+  --violet-ink: #6d28d9;
+
+  --subj-indigo-bg: #e0e7ff;
+  --subj-indigo-ink: #4338ca;
+  --subj-indigo-ring: #6366f1;
+  --subj-violet-bg: #ede9fe;
+  --subj-violet-ink: #6d28d9;
+  --subj-violet-ring: #8b5cf6;
+  --subj-cyan-bg: #cffafe;
+  --subj-cyan-ink: #0e7490;
+  --subj-cyan-ring: #06b6d4;
+  --subj-mint-bg: #d1fae5;
+  --subj-mint-ink: #047857;
+  --subj-mint-ring: #10b981;
+  --subj-orange-bg: #ffedd5;
+  --subj-orange-ink: #c2410c;
+  --subj-orange-ring: #f97316;
+  --subj-blue-bg: #e0f2fe;
+  --subj-blue-ink: #0369a1;
+  --subj-blue-ring: #0ea5e9;
+  --subj-rose-bg: #ffe4e6;
+  --subj-rose-ink: #be123c;
+  --subj-rose-ring: #f43f5e;
+  --subj-slate-bg: #e2e8f0;
+  --subj-slate-ink: #334155;
+  --subj-slate-ring: #64748b;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --app: #111827;
+  --surface: #1f2937;
+  --elevated: #273449;
+  --soft: #273449;
+  --soft-2: #2e3b52;
+  --soft-3: #374151;
+
+  --ink: #f9fafb;
+  --ink-2: #d1d5db;
+  --ink-muted: #9ca3af;
+  --line: #374151;
+
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-soft: #312e81;
+  --primary-strong: #c7d2fe;
+  --secondary: #a78bfa;
+  --on-primary: #0b1220;
+
+  --invert: #0b1220;
+  --invert-ink: #f9fafb;
+  --overlay: rgb(2 6 23 / 0.65);
+  --scroll-thumb: #4b5563;
+
+  --success: #34d399;
+  --success-soft: #0e3a2f;
+  --success-ink: #6ee7b7;
+  --warning: #fb923c;
+  --warning-soft: #40260f;
+  --warning-ink: #fdba74;
+  --danger: #f87171;
+  --danger-soft: #40191c;
+  --danger-ink: #fca5a5;
+  --cyan: #22d3ee;
+  --cyan-soft: #0b3340;
+  --cyan-ink: #67e8f9;
+  --violet: #a78bfa;
+  --violet-soft: #2e2150;
+  --violet-ink: #c4b5fd;
+
+  --subj-indigo-bg: #312e81;
+  --subj-indigo-ink: #c7d2fe;
+  --subj-indigo-ring: #818cf8;
+  --subj-violet-bg: #3b2e6b;
+  --subj-violet-ink: #ddd6fe;
+  --subj-violet-ring: #a78bfa;
+  --subj-cyan-bg: #0b3340;
+  --subj-cyan-ink: #a5f3fc;
+  --subj-cyan-ring: #22d3ee;
+  --subj-mint-bg: #0e3a2f;
+  --subj-mint-ink: #a7f3d0;
+  --subj-mint-ring: #34d399;
+  --subj-orange-bg: #40260f;
+  --subj-orange-ink: #fed7aa;
+  --subj-orange-ring: #fb923c;
+  --subj-blue-bg: #0c2a40;
+  --subj-blue-ink: #bae6fd;
+  --subj-blue-ring: #38bdf8;
+  --subj-rose-bg: #3f1d24;
+  --subj-rose-ink: #fecdd3;
+  --subj-rose-ring: #fb7185;
+  --subj-slate-bg: #334155;
+  --subj-slate-ink: #cbd5e1;
+  --subj-slate-ring: #94a3b8;
+}
+
+:root[data-theme='comfort'] {
+  color-scheme: light;
+
+  --app: #f4ebd8;
+  --surface: #fff9ed;
+  --elevated: #fffdf6;
+  --soft: #f7efde;
+  --soft-2: #efe4cb;
+  --soft-3: #e5d8c1;
+
+  --ink: #493a2a;
+  --ink-2: #6b5a45;
+  --ink-muted: #8a7860;
+  --line: #e5d8c1;
+
+  --primary: #6558a5;
+  --primary-hover: #54488f;
+  --primary-soft: #ece6f3;
+  --primary-strong: #54488f;
+  --secondary: #8a7bc0;
+  --on-primary: #fff9ed;
+
+  --invert: #493a2a;
+  --invert-ink: #fff9ed;
+  --overlay: rgb(73 58 42 / 0.5);
+  --scroll-thumb: #d8c7a8;
+
+  --success: #3f8f6b;
+  --success-soft: #e7f1e8;
+  --success-ink: #2f7355;
+  --warning: #c2743a;
+  --warning-soft: #f8ebdc;
+  --warning-ink: #9a5a2a;
+  --danger: #c0574f;
+  --danger-soft: #f6e3e0;
+  --danger-ink: #9b3f38;
+  --cyan: #4a8a9e;
+  --cyan-soft: #e3eef0;
+  --cyan-ink: #356b7c;
+  --violet: #7c6fb0;
+  --violet-soft: #ece7f2;
+  --violet-ink: #5a4e8c;
+
+  --subj-indigo-bg: #e3e0f2;
+  --subj-indigo-ink: #54488f;
+  --subj-indigo-ring: #7c6fb0;
+  --subj-violet-bg: #e9e3f2;
+  --subj-violet-ink: #5a4e8c;
+  --subj-violet-ring: #8a7bc0;
+  --subj-cyan-bg: #dce9ec;
+  --subj-cyan-ink: #356b7c;
+  --subj-cyan-ring: #4a8a9e;
+  --subj-mint-bg: #e1ede3;
+  --subj-mint-ink: #2f7355;
+  --subj-mint-ring: #3f8f6b;
+  --subj-orange-bg: #f4e6d5;
+  --subj-orange-ink: #9a5a2a;
+  --subj-orange-ring: #c2743a;
+  --subj-blue-bg: #dde8f0;
+  --subj-blue-ink: #3a6a8a;
+  --subj-blue-ring: #5a8ca8;
+  --subj-rose-bg: #f1dedc;
+  --subj-rose-ink: #9b3f38;
+  --subj-rose-ring: #c0574f;
+  --subj-slate-bg: #e8dfce;
+  --subj-slate-ink: #5a4a38;
+  --subj-slate-ring: #8a7860;
+}
+
+@theme inline {
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --color-app: var(--app);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-soft: var(--soft);
+  --color-soft-2: var(--soft-2);
+  --color-soft-3: var(--soft-3);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-strong: var(--primary-strong);
+  --color-secondary: var(--secondary);
+  --color-on-primary: var(--on-primary);
+  --color-invert: var(--invert);
+  --color-invert-ink: var(--invert-ink);
+  --color-overlay: var(--overlay);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-success-ink: var(--success-ink);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-ink: var(--warning-ink);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
+  --color-cyan: var(--cyan);
+  --color-cyan-soft: var(--cyan-soft);
+  --color-cyan-ink: var(--cyan-ink);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-violet-ink: var(--violet-ink);
+
+  --radius-card: 1rem;
+
+  --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06);
+  --shadow-pop: 0 10px 30px -12px rgb(15 23 42 / 0.18);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-rise: rise 0.35s var(--ease-out-soft) both;
+  --animate-fade: fade 0.4s var(--ease-out-soft) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  :root {
+    font-size: 16px;
+  }
+
+  :root[data-text-size='large'] {
+    font-size: 17.6px;
+  }
+
+  :root[data-text-size='xlarge'] {
+    font-size: 19.2px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-app text-ink font-sans antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink font-semibold tracking-tight;
+  }
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility card {
+  @apply bg-surface border-line rounded-2xl border shadow-[0_1px_2px_0_rgb(15_23_42_/_0.04),0_1px_3px_0_rgb(15_23_42_/_0.06)];
+}
+
+@utility grid-paper {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 4%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Subject colour chips — theme-aware so stored subject colours adapt. */
+@utility subj-indigo {
+  background-color: var(--subj-indigo-bg);
+  color: var(--subj-indigo-ink);
+  --tw-ring-color: var(--subj-indigo-ring);
+}
+@utility subj-violet {
+  background-color: var(--subj-violet-bg);
+  color: var(--subj-violet-ink);
+  --tw-ring-color: var(--subj-violet-ring);
+}
+@utility subj-cyan {
+  background-color: var(--subj-cyan-bg);
+  color: var(--subj-cyan-ink);
+  --tw-ring-color: var(--subj-cyan-ring);
+}
+@utility subj-mint {
+  background-color: var(--subj-mint-bg);
+  color: var(--subj-mint-ink);
+  --tw-ring-color: var(--subj-mint-ring);
+}
+@utility subj-orange {
+  background-color: var(--subj-orange-bg);
+  color: var(--subj-orange-ink);
+  --tw-ring-color: var(--subj-orange-ring);
+}
+@utility subj-blue {
+  background-color: var(--subj-blue-bg);
+  color: var(--subj-blue-ink);
+  --tw-ring-color: var(--subj-blue-ring);
+}
+@utility subj-rose {
+  background-color: var(--subj-rose-bg);
+  color: var(--subj-rose-ink);
+  --tw-ring-color: var(--subj-rose-ring);
+}
+@utility subj-slate {
+  background-color: var(--subj-slate-bg);
+  color: var(--subj-slate-ink);
+  --tw-ring-color: var(--subj-slate-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 999px;
+  border: 2px solid var(--app);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--scroll-thumb) 80%, var(--ink));
+}
