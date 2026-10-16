@@ -58,6 +58,7 @@ silently overbooking you.
 | **Analytics** | Planned vs. actual study time, subject completion, topic mastery, consistency — with text summaries. |
 | **Assistant** | Rule-based, data-driven Q&A and revision-order suggestions. |
 | **Settings** | Profile, availability, exam CRUD, export, demo data, reset. |
+| **Appearance** | Light, Dark and Eye Comfort modes plus a text-size control — applied everywhere, saved locally, restored with no flash. |
 
 ---
 
