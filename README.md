@@ -2,6 +2,8 @@
 
 > **Study smarter. Stress less. Achieve more.**
 
+**🔗 Live demo:** https://focusflow-phi-opal.vercel.app
+
 FocusFlow helps students decide **what** to study, organise the time they actually have,
 track real learning progress, and **recover intelligently** when they fall behind.
 
@@ -57,7 +59,7 @@ silently overbooking you.
 | **Focus timer** | Drift-free Pomodoro timer (timestamp-based), focus/short/long breaks, logs real minutes. |
 | **Analytics** | Planned vs. actual study time, subject completion, topic mastery, consistency — with text summaries. |
 | **Assistant** | Rule-based, data-driven Q&A and revision-order suggestions. |
-| **Settings** | Profile, availability, exam CRUD, export, demo data, reset. |
+| **Settings** | Profile, availability, exam CRUD, JSON export/import (backup & restore), demo data, reset. |
 | **Appearance** | Light, Dark and Eye Comfort modes plus a text-size control — applied everywhere, saved locally, restored with no flash. |
 
 ---
@@ -143,6 +145,8 @@ Requires Node 20+.
 - Loading is defensive: malformed JSON falls back to defaults, and partial objects are migrated
   and normalised.
 - **Demo mode** is clearly labelled with a banner and loads realistic sample data.
+- Use **Settings → Export JSON** to download a full backup, and **Settings → Import JSON** to
+  restore one (e.g. move your data to another device).
 - Use **Settings → Reset all data** to start fresh.
 
 > **Local vs. cloud:** `localStorage` is per-browser and per-device. It is **not** a secure
@@ -172,6 +176,9 @@ Moving from this local MVP to a multi-user cloud app would require:
 
 ## Deployment
 
+**Live:** https://focusflow-phi-opal.vercel.app — deployed on Vercel from the `main` branch
+(every push auto-redeploys).
+
 Built as a static SPA. Config for common hosts is included:
 
 - `vercel.json` — SPA rewrite so nested routes work on refresh.
@@ -184,6 +191,3 @@ added later, document it in `.env.example` and keep secrets server-side only.
 ```bash
 npm run build   # outputs to dist/
 ```
-
-> Not yet deployed — this repository contains deployment configuration but no public URL has
-> been verified. Deploy, then update this section with the live link.

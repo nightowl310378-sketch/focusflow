@@ -45,13 +45,7 @@ function migrate(data: Record<string, unknown>, _version: number | undefined): F
   } as FocusFlowData
 }
 
-export function loadData(): FocusFlowData {
-  const parsed = safeParse(localStorage.getItem(KEY))
-  if (!isObject(parsed)) {
-    const initial = createInitialData()
-    saveData(initial)
-    return initial
-  }
+function normalize(parsed: Record<string, unknown>): FocusFlowData {
   const v = typeof parsed.version === 'number' ? parsed.version : undefined
   const migrated = migrate(parsed, v)
   // Normalise a few required fields defensively.
@@ -71,6 +65,36 @@ export function loadData(): FocusFlowData {
   migrated.focusRecords ||= []
   migrated.planMeta ||= null
   return migrated
+}
+
+export function loadData(): FocusFlowData {
+  const parsed = safeParse(localStorage.getItem(KEY))
+  if (!isObject(parsed)) {
+    const initial = createInitialData()
+    saveData(initial)
+    return initial
+  }
+  return normalize(parsed)
+}
+
+/**
+ * Restore a previously exported backup. Returns the parsed data and persists it,
+ * or `null` if the payload is not valid FocusFlow JSON.
+ */
+export function importData(raw: string): FocusFlowData | null {
+  const parsed = safeParse(raw)
+  if (!isObject(parsed)) return null
+  // Guard against arbitrary JSON: a real backup always carries these collections.
+  const looksLikeBackup =
+    Array.isArray(parsed.subjects) ||
+    Array.isArray(parsed.sessions) ||
+    Array.isArray(parsed.exams) ||
+    isObject(parsed.profile) ||
+    isObject(parsed.preferences)
+  if (!looksLikeBackup) return null
+  const next = normalize(parsed)
+  saveData(next)
+  return next
 }
 
 export function saveData(data: FocusFlowData): void {

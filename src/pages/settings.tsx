@@ -1,5 +1,5 @@
-import { CalendarPlus, Database, Download, Eye, Moon, Pencil, RotateCcw, Save, Sparkles, Sun, Trash2 } from 'lucide-react'
-import { useMemo, useState, type JSX } from 'react'
+import { CalendarPlus, Database, Download, Eye, Moon, Pencil, RotateCcw, Save, Sparkles, Sun, Trash2, Upload } from 'lucide-react'
+import { useMemo, useRef, useState, type ChangeEvent, type JSX } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import type { Exam, ExamImportance, Preferences } from '@/domain/types'
 import { createInitialData } from '@/constants/defaults'
 import { generateTimetable } from '@/services/planner'
 import { loadDemo, resetData } from '@/storage/storage'
+import { importData as importBackup } from '@/storage/storage'
 import { useStore } from '@/storage/use-store'
 import { cn } from '@/lib/cn'
 import { formatDate, toISODateTime, WEEKDAYS } from '@/utils/dates'
@@ -38,6 +39,7 @@ export default function Settings(): JSX.Element {
   const navigate = useNavigate()
   const { theme, setTheme, textSize, setTextSize } = useTheme()
   const [examForm, setExamForm] = useState<{ open: boolean; editing?: Exam }>({ open: false })
+  const fileInput = useRef<HTMLInputElement>(null)
 
   const prefs = data.preferences
   const subjectById = useMemo(() => new Map(data.subjects.map((s) => [s.id, s])), [data.subjects])
@@ -71,6 +73,28 @@ export default function Settings(): JSX.Element {
     a.click()
     URL.revokeObjectURL(url)
     toast({ tone: 'success', title: 'Data exported' })
+  }
+
+  const handleImportFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const next = importBackup(String(reader.result ?? ''))
+      if (!next) {
+        toast({
+          tone: 'error',
+          title: 'Import failed',
+          message: 'That file is not a valid FocusFlow backup.',
+        })
+        return
+      }
+      replaceData(next)
+      toast({ tone: 'success', title: 'Backup restored', message: 'Your imported data is now active.' })
+      navigate('/app')
+    }
+    reader.readAsText(file)
   }
 
   return (
@@ -293,6 +317,16 @@ export default function Settings(): JSX.Element {
           <Button variant="secondary" onClick={exportData}>
             <Download className="h-4 w-4" /> Export JSON
           </Button>
+          <Button variant="secondary" onClick={() => fileInput.current?.click()}>
+            <Upload className="h-4 w-4" /> Import JSON
+          </Button>
+          <input
+            ref={fileInput}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={handleImportFile}
+          />
           <Button
             variant="secondary"
             onClick={() => {

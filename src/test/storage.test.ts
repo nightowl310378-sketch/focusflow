@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { loadData, saveData, resetData } from '@/storage/storage'
+import { loadData, saveData, resetData, importData } from '@/storage/storage'
 import { createInitialData } from '@/constants/defaults'
 
 describe('storage', () => {
@@ -42,5 +42,19 @@ describe('storage', () => {
     const fresh = resetData()
     expect(fresh.demo).toBe(false)
     expect(fresh.subjects).toEqual([])
+  })
+
+  it('imports a valid backup and persists it', () => {
+    const backup = createInitialData({ demo: true })
+    const restored = importData(JSON.stringify(backup))
+    expect(restored).not.toBeNull()
+    expect(restored!.subjects.length).toBe(backup.subjects.length)
+    expect(loadData().subjects.length).toBe(backup.subjects.length)
+  })
+
+  it('rejects invalid JSON and unrelated JSON objects', () => {
+    expect(importData('{not json')).toBeNull()
+    expect(importData('"just a string"')).toBeNull()
+    expect(importData(JSON.stringify({ hello: 'world' }))).toBeNull()
   })
 })
