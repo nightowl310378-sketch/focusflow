@@ -178,6 +178,59 @@ export function createInitialData(opts?: { demo?: boolean; name?: string }): Foc
     }
   }
 
+  // A short history so analytics, consistency and the 14-day chart show real,
+  // non-zero values straight away in demo mode.
+  const pastWindow = (daysAgo: number, hour: number, minutes: number) => {
+    const day = startOfDay(addDays(now, -daysAgo))
+    const start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), hour, 0, 0, 0)
+    const end = new Date(start.getTime() + minutes * 60_000)
+    return { start, end }
+  }
+  const makePastSession = (
+    daysAgo: number,
+    hour: number,
+    title: string,
+    subjectId: string,
+    topicId: string,
+    lenMin: number,
+  ) => {
+    const { start, end } = pastWindow(daysAgo, hour, lenMin)
+    return {
+      id: uid('sess'),
+      title,
+      kind: 'study' as const,
+      subjectId,
+      topicId,
+      start: toISODateTime(start),
+      end: toISODateTime(end),
+      status: 'completed' as const,
+      origin: 'manual' as const,
+      createdAt: toISODateTime(now),
+      actualMinutes: lenMin,
+      completedAt: toISODateTime(end),
+    }
+  }
+  const makeFocus = (
+    daysAgo: number,
+    hour: number,
+    minutes: number,
+    subjectId: string,
+    topicId: string,
+    counted = true,
+  ) => {
+    const { start, end } = pastWindow(daysAgo, hour, minutes)
+    return {
+      id: uid('focus'),
+      mode: 'focus' as const,
+      startedAt: toISODateTime(start),
+      endedAt: toISODateTime(end),
+      minutes,
+      counted,
+      subjectId,
+      topicId,
+    }
+  }
+
   return {
     ...base,
     demo: true,
@@ -186,9 +239,16 @@ export function createInitialData(opts?: { demo?: boolean; name?: string }): Foc
     exams: [examMath, examPhy, examEng],
     topics: [topicAlgebra, topicTrig, topicKinematics, topicGrammar, topicVocab],
     sessions: [
+      // today
       makeSession(uid('sess'), topicAlgebra.name, subjMath.id, topicAlgebra.id, 0, 40, 'completed'),
       makeSession(uid('sess'), topicKinematics.name, subjPhy.id, topicKinematics.id, 60, 40, 'planned'),
       makeSession(uid('sess'), topicGrammar.name, subjEng.id, topicGrammar.id, 120, 25, 'planned'),
+      // recent history (completed)
+      makePastSession(1, 17, topicAlgebra.name, subjMath.id, topicAlgebra.id, 40),
+      makePastSession(2, 18, topicKinematics.name, subjPhy.id, topicKinematics.id, 35),
+      makePastSession(3, 17, topicTrig.name, subjMath.id, topicTrig.id, 45),
+      makePastSession(4, 19, topicGrammar.name, subjEng.id, topicGrammar.id, 30),
+      makePastSession(6, 17, topicVocab.name, subjEng.id, topicVocab.id, 25),
     ],
     tasks: [
       {
@@ -221,7 +281,14 @@ export function createInitialData(opts?: { demo?: boolean; name?: string }): Foc
         createdAt: toISODateTime(now),
       },
     ],
-    focusRecords: [],
+    focusRecords: [
+      makeFocus(1, 17, 40, subjMath.id, topicAlgebra.id),
+      makeFocus(1, 18, 20, subjPhy.id, topicKinematics.id),
+      makeFocus(2, 18, 35, subjPhy.id, topicKinematics.id),
+      makeFocus(3, 17, 45, subjMath.id, topicTrig.id),
+      makeFocus(4, 19, 30, subjEng.id, topicGrammar.id),
+      makeFocus(6, 17, 25, subjEng.id, topicVocab.id),
+    ],
     planMeta: null,
   }
 }
